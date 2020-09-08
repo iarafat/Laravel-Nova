@@ -49,13 +49,17 @@ class Post extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            Text::make('title'),
+            Text::make('title')->rules('required'),
 
-            Trix::make('body'),
+            Trix::make('body')->rules('required'),
 
-            DateTime::make('Published At'),
+            DateTime::make('Published At')
+                ->hideFromIndex()
+                ->rules('after_or_equal:today'),
 
-            DateTime::make('Unlisted At'),
+            DateTime::make('Unlisted At')
+                ->hideFromIndex()
+                ->rules('after_or_equal:published_at'),
 
             Boolean::make('Is Publish'),
 
@@ -66,9 +70,11 @@ class Post extends Resource
                     'tech' => 'Tech',
                     'iot' => 'IoT',
                     'ai-and-ml' => 'AI & ML',
-                ]),
+                ])
+                ->rules('required'),
 
-            BelongsTo::make('User'),
+            BelongsTo::make('User')
+                ->rules('required'),
 
             BelongsToMany::make('Tags'),
         ];
