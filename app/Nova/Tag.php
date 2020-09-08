@@ -3,31 +3,26 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Post extends Resource
+class Tag extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Post::class;
+    public static $model = \App\Tag::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -35,49 +30,28 @@ class Post extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'title', 'body', 'category'
+        'id', 'name'
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function fields(Request $request)
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-
-            Text::make('title'),
-
-            Trix::make('body'),
-
-            DateTime::make('Published At'),
-
-            DateTime::make('Unlisted At'),
-
-            Boolean::make('Is Publish'),
-
-            Select::make('Category')
-                ->searchable()
-                ->options([
-                    'news' => 'News',
-                    'tech' => 'Tech',
-                    'iot' => 'IoT',
-                    'ai-and-ml' => 'AI & ML',
-                ]),
-
-            BelongsTo::make('User'),
-
-            BelongsToMany::make('Tags'),
+            Text::make('Name'),
+            BelongsToMany::make('Posts'),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function cards(Request $request)
@@ -88,7 +62,7 @@ class Post extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function filters(Request $request)
@@ -99,7 +73,7 @@ class Post extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function lenses(Request $request)
@@ -110,7 +84,7 @@ class Post extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function actions(Request $request)
