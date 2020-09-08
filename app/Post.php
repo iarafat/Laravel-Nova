@@ -10,4 +10,9 @@ class Post extends Model
         'published_at' => 'datetime',
         'unlisted_at' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

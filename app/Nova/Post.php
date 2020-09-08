@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -46,11 +47,17 @@ class Post extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+
             Text::make('title'),
+
             Trix::make('body'),
+
             DateTime::make('Published At'),
+
             DateTime::make('Unlisted At'),
+
             Boolean::make('Is Publish'),
+
             Select::make('Category')
                 ->searchable()
                 ->options([
@@ -59,6 +66,8 @@ class Post extends Resource
                     'iot' => 'IoT',
                     'ai-and-ml' => 'AI & ML',
                 ]),
+
+            BelongsTo::make('User'),
         ];
     }
 
